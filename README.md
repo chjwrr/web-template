@@ -1,172 +1,97 @@
-`yarn add @apollo/client @emailjs/browser @multiavatar/multiavatar @reduxjs/toolkit @sentry/react @types/lodash lodash @types/numeral numeral @types/react-lottie react-lottie animate.css bignumber.js copy-to-clipboard dayjs echarts events framer-motion graphql language-translate  react-countdown  rc-texty rc-tween-one react-fast-marquee react-height react-loader-spinner react-photo-view react-redux react-reveal react-spring react-toastify react-use redux-persist swiper use-media @web3modal/wagmi wagmi viem @tanstack/react-query crypto-js @types/crypto-js react-tooltip`
+                            _ooOoo_  
+                           o8888888o  
+                           88" . "88  
+                           (| -_- |)  
+                            O\ = /O  
+                        ____/`---'\____  
+                      .   ' \\| | `.  
+                       / \\||| : ||| \  
+                     / _||||| -:- |||||- \  
+                       | | \\\ - / | |  
+                     | \_| ''\---/'' | |  
+                      \ .-\__ `-` ___/-. /  
+                   ___`. .' /--.--\ `. . __  
+                ."" '< `.___\_<|>_/___.' >'"".  
+               | | : `- \`.;`\ _ /`;.`/ - ` : | |  
+                 \ \ `-. \_ __\ /__ _/ .-` / /  
+         ======`-.____`-.___\_____/___.-`____.-'======  
+                            `=---='  
+  
+         .............................................  
+                  佛祖保佑             永无BUG 
+          佛曰:  
+                  写字楼里写字间，写字间里程序员；  
+                  程序人员写程序，又拿程序换酒钱。  
+                  酒醒只在网上坐，酒醉还来网下眠；  
+                  酒醉酒醒日复日，网上网下年复年。  
+                  但愿老死电脑间，不愿鞠躬老板前；  
+                  奔驰宝马贵者趣，公交自行程序员。  
+                  别人笑我忒疯癫，我笑自己命太贱；  
+                  不见满街漂亮妹，哪个归得程序员？
 
 
-# 集合
+`yarn add @apollo/client @emailjs/browser @multiavatar/multiavatar @reduxjs/toolkit @sentry/react @types/lodash lodash @types/numeral numeral @types/react-lottie react-lottie animate.css bignumber.js copy-to-clipboard dayjs echarts events framer-motion graphql language-translate  react-countdown  rc-texty rc-tween-one react-fast-marquee react-height react-loader-spinner react-photo-view react-redux react-reveal react-spring react-toastify react-use redux-persist swiper use-media @web3modal/wagmi wagmi viem @tanstack/react-query crypto-js @types/crypto-js react-tooltip @umijs/plugins aos @types/aos react-countup`
+
+
+# extensions.ts
+  - `Number` 绑定 加、减、乘、除、保留几位小数、千位分隔符方法
+
+# components/errorBoundary
+ - UI 错误显示页面
+
+# 多语言
+  `useIntlLanguage`
+  `setLocaleLanguage(LocalsLanaugaeKey.US)`
+
+# components/loadingButton
+ - 自定义loading按钮，目前支持 type = 'primary' | 'default' | 'error' | 'warning' 4种类型, 其他颜色的需重新定义type，暂不支持传入属性参数
+
+# useMutation 使用
 ```
-1.将鼠标悬停在一个 div 元素上，逐步改变表格的宽度从 100px 到 300px：
-div
-{
-  width:100px;
-  transition: width 2s;
-  -webkit-transition: width 2s; /* Safari */
+const mutation = useMutation({
+  mutationKey:['getCoinList'],
+  mutationFn:getCoinList
+})
+
+function getCoinList({coin}:{coin:string}){
+  console.log('coin===',coin)
+  return fetch('https://www.binance.com/dapi/v1/premiumIndex').then((response)=>response.json())
 }
-div:hover {width:300px;}
-
-2.文本最多2行，超出省略号
-//word-break: break-all;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp: 2;
-overflow: hidden;
-
-
-3.设置滚动条样式
-.wrap {
-  margin: 0 auto;
-  width: 300px;
-  height: 200px;
-  overflow: auto;
+function onFetch(){
+  mutation.mutate({coin:'BTC'},{
+    onError(error, variables, context) {
+      console.log('error===',error);
+    },
+    onSuccess(data, variables, context) {
+      console.log('onSuccess data===',data);
+    },
+    onSettled(data, error, variables, context) {
+      // 相当于 onFinish 可在此取消loading状态 data是错误或成功的信息
+    },
+  })
 }
-
-
-.wrap::-webkit-scrollbar {
-  /* 整体大小样式 */
-  width: 10px;
-  height: 10px;
-  }
-
-
-.wrap::-webkit-scrollbar-thumb {
-  /* 滚动条里的滑块 */
-  border-radius: 10px;
-  background-color: skyblue;
-  background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,0.2) 25%,
-  transparent 25%,
-  transparent 50%,
-  rgba(255,255,255,0.2) 55%,
-  rgba(255,255,255,0.2) 75%,
-  transparent 75%,
-  transparent);
-}
-
-
-.test::-webkit-scrollbar-track {
-/* 滚动条的轨道 */
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  background: #ededed;
-  border-radius: 10px;
-}
-
-4. 绘制三角形
-div {
-  width:0;
-  height:0;
-  border-width: 0 40px 40px;
-  border-style: solid;
-  border-color: transparent transparent rgba(0,0,0,0.3);
-}
-
-5. 禁止用户选中元素
-.wrap {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-6.图片旋转动画
-.lanArrow {
-  width:1.6rem;
-  height:1.6rem;
-}
-.lanArrowRotate {
-  transform: rotate(180deg);
-  -webkit-transform: rotate(180deg);
-  transition: transform .25s;
-}
-.lanArrowReset {
-  transform: rotate(0deg);
-  -webkit-transform: rotate(0deg);
-  transition: transform .25s;
-}
-7. 高度从0-100动画
-
-.lanShowView {
-  width:17rem;
-  height: 0;
-  position: absolute;
-  z-index: 5;
-  top:5.6rem;
-  left:0;
-  overflow: hidden;
-  background: @pageBgColor;
-}
-.lanShowViewShow {
-  height: 15.8rem;
-  transition: height .25s;
-}
-.lanShowViewHidden {
-  height: 0;
-  transition: height .25s;
-}
-
-8.多语言配置
-多语言按照页面进行分类，key写成 比如
-{
-  home:{
-    title:'', // t('home.title')
-    detail:{
-      title:'' // t('home.detail.title')
-    }
-  },
-  assets:{
-    title:'' // // t('assets.title')
-  }
-}
-
 ```
 
-# 粘性布局
-stickymate.js
+# 页面预加载数据 
 ```
-footer {
-  position: -webkit-sticky;
-  position: sticky;
-  bottom: 0;
-  height: 50px;
-  padding: 5px 0;
-  z-index: -1;
+const { data } = useClientLoaderData();
+
+// 路由数据加载
+export async function clientLoader() {
+  const data = await fetch('/api/data');
+  return data;
 }
-
-
-
-
-
-
-
-
-
 ```
 
-# react-countup 数字从  0 - 100
+# 加载SVG
 ```
-<CountUp className='numberValue' end={100} duration={3} />
-
-```
-
-# react-tooltip
-```
-import 'react-tooltip/dist/react-tooltip.css'
-
-
-import { Tooltip } from 'react-tooltip'
-
-<img id='farmQues'/>
-<Tooltip anchorSelect="#farmQues" place="top" clickable
-  style={{ backgroundColor: "#00000080"}}>
-  <div className='earnframTip'>hello world</div>
-</Tooltip>
+import SmileUrl, { ReactComponent as SvgSmile } from '@/assets/svg/Aptos.svg'
+<img src={SmileUrl} className='svg'/>
+.svg {
+  width:10rem;
+  height:10rem;
+  background-color: red;
+}
 ```
 
 # 视频
@@ -185,578 +110,19 @@ import { Tooltip } from 'react-tooltip'
 }
 ```
 
-# 整屏布局
-```
-const [windowHeight,setWindowHeight] = useState(0)
-useEffect(()=>{
-  calculateWindowHeight()
-  window.addEventListener('resize',(res:any)=>{
-    calculateWindowHeight()
-  })
-  return ()=>{
-    window.removeEventListener('resize',()=>{})
-  }
-},[])
-function calculateWindowHeight(){
-  const wh = Math.max(window.innerHeight,600)
-  setWindowHeight(wh)
-}
-return <div className='mainView' style={{minHeight:windowHeight}}>
-<div/>
-```
-
-# 项目中使用的色值
-所有颜色定义在 `@/Common/colors.less`中
-```
-@secondColor:blue;
-```
-
-其他地方使用在 `.less`中引入
-```
-@import '@/Common/colors.less';
-.button {
-  background: @secondColor;
-}
-```
-
-# 加载SVG
-```
-import SmileUrl, { ReactComponent as SvgSmile } from '@/assets/svg/Aptos.svg'
-<img src={SmileUrl} className='svg'/>
-.svg {
-  width:10rem;
-  height:10rem;
-  background-color: red;
-}
-```
-
-# 根据地址生成头像
-```
-import multiavatar from '@multiavatar/multiavatar/esm'
-let svgCode = multiavatar('Binx Bond')
-<div className={'svg'} dangerouslySetInnerHTML={{ __html: SvgCode }}></div>
-```
-
-# loading 按钮
-```
-import LoadingButton, { LoadingButtonIcon, LoadingButtonOpacity, LoadingButtonRotate, LoadingButtonScale } from '@/Components/LoadingButton';
-
-<LoadingButton loading={true}>loadingButton</LoadingButton>
-<LoadingButtonScale loading={true}>loadingButton</LoadingButtonScale>
-<LoadingButtonOpacity loading={true}>loadingButton</LoadingButtonOpacity>
-<LoadingButtonRotate loading={true}>loadingButton</LoadingButtonRotate>
-<div>
-  {1==1 && <LoadingButtonIcon/>} loadingButton
-</div>
-
-```
-# 数据请求时，页面文本显示
-```
-import LoadingRow from '@/Components/LoadingRow';
-<LoadingRow width={20}/>
-```
-# toast 提示框 方法一
-```
-import { ToastError, ToastInfo, ToastSuccess, ToastWarning } from '@/Components/Toast';
-
-ToastSuccess('success')
-ToastError('error')
-ToastInfo('info'),
-ToastWarning('warning')
-```
-
-# toast  提示框  方法二（推荐）
-```
-根目录设置
-import { ToastContainer, toast } from 'react-toastify';
-<div>
-  <button onClick={notify}>Notify!</button>
-  <ToastContainer /> 放在最底部
-</div>
-
-const notifyInfo = () => toast.info("这是提示信息");
-const notifySuccess = () => toast.success("这是成功信息");
-const notifyError = () => toast.error("这是错误信息");
-const notifyWarning = () => toast.warn("这是警告信息");
-const notifyDefault = () => toast("这是默认信息");
-
-```
-
-# 发送交易时弹出loading
-```
-import { TransLoadingConfirm, TransLoadingError, TransLoadingPending, TransLoadingSuccess } from '@/Components/TransactionLoading';
-
-TransLoadingConfirm('confirm')
-TransLoadingPending('pending',56)
-TransLoadingSuccess('hash',56)
-TransLoadingError('error','hash',56)
-```
-
-# 倒计时
-```
-import Countdown, {zeroPad} from "react-countdown";
-<Countdown date={time} renderer={renderer} />
-const renderer = ({ days,hours, minutes, seconds, completed }:any) => {
-  if (completed) {
-  } else {
-    return <span>{zeroPad(days,2)} {zeroPad(hours,2)}:{zeroPad(minutes,2)}:{zeroPad(seconds,2)}</span>
-  }
-};
-```
-
-# 添加新的合约 例如Abc.json
-```
-1.将Abc.json文件拷入 `src/ABI` 文件夹下
-2.将地址写入 `Contract/addresses.ts`中
-
-代币
-export const USDT_TOKEN:ContractInterface = {
-  abi:ERC20_ABI,
-  addresses:{
-    [ChainID.BSC_TESTNET]:'0x49509869e7CaF5f50cf8d7bA6692cA3C70F11234',
-    [ChainID.MATCH_TESTNET]:'0x8e6916bE1968b9211a5eCD019F6466b0Ce396597',
-    [ChainID.BSC]: "0x55d398326f99059fF775485246999027B3197955",
-  }
-};
-
-合约
-export const ZNBPleiadePlan_CONTRACT:ContractInterface = {
-  abi:ZNBPleiadePlan_ABI,
-  addresses:{
-    [ChainID.BSC]: "0xB82d4bb63B9641545a308Bc74B212561E8f016B0",
-    [ChainID.BSC_TESTNET]: "0xB82d4bb63B9641545a308Bc74B212561E8f016B0",
-  }
-};
-
-```
-
-# 从合约读取数据
-```
-目录：Contract/index.ts
-
-import { publicClient } from '@/provider/Web3ModalProvider';
-export function useTest(){
-  const {address} = useAccount()
-  const chainId = useChainId()
-
-  async function fetchData(){
-    if (!address || !chainId){
-      return
-    }
-
-    const getPledgeDetail = await publicClient.readContract({
-      address:ZNBPleiadePlan_CONTRACT.addresses[chainId],
-      abi:ZNBPleiadePlan_CONTRACT.abi,
-      functionName:'getPledgeDetail',
-      args:[address,'FTC']
-    })
-
-    console.log('getPledgeDetail==',getPledgeDetail)
-
-
-    return {
-      getPledgeDetail
-    }
-  }
-  return useQuery({
-    queryKey:["useTest"],
-    queryFn:fetchData,
-    enabled:!!chainId && !!address,
-    refetchInterval:RefreshConfig.shortRefreshInterval
-  })
-}
-
-
-使用
-const testInfo = useTest()
-testInfo.isLoading   testInfo.data?.vip
-
-{testInfo.isLoading ? <LoadingRow width={20}/> : <div>testInfo.data?.vip</div>}
-
-```
-# 调用合约方法
-```
-import { useSendTransaction } from '@/Contract'
-
-const sendTransaction = useSendTransaction()
-
-// 需要调合约方法扣除U的，需要判断是否授权了代币给合约
-// 比如 购买NFT(需要扣除钱包的USDT),需要判断授权状态
-// 代币地址，合约地址,授权成功回调，扣除代币的数量
-  const [approveStatus,approve] = useApprove(TEST_TOKEN.addresses,ZNBPleiadePlan_CONTRACT.addresses,approveSuccess,1000)
-
-// 比如领取奖励，不需要扣除代币，则不需要判断授权状态
-
-function onMint(){
-    // 判断时候授权，如果没有，则重新授权
-    if (approveUStatus != ApprovalState.APPROVED){
-      approveU && approveU()
-      return
-    }
-    sendTransaction.mutate({
-      title:'Stake',
-      contract:ZNBPleiadePlan_CONTRACT,
-      funcName:'buyEquityPackage',
-      args:['PHLO',parseUnits('100',18),200],
-      onSuccess:(hash:any)=>{
-      },
-      onError:(e:any)=>{
-      }
-    })
-}
-```
-
-# 顶部页面滚动进度条
-```
-import { motion, useScroll, useSpring } from "framer-motion"
-
-const { scrollYProgress } = useScroll();
-const scaleX = useSpring(scrollYProgress, {
-  stiffness: 100,
-  damping: 30,
-  restDelta: 0.001
-});
-<motion.div className='progress' style={{ scaleX }} />
-.progress {
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2rem;
-  background: red;
-  transform-origin: 0%;
-  position: fixed;
-}
-```
-
-# select 选择框
-https://codesandbox.io/p/sandbox/framer-motion-variants-rj7ks0?file=%2Fsrc%2FApp.tsx%3A16%2C1
-```
-import Select, {SelectProps} from '@/Components/Select';
-const titles1:any = [
-  {
-    title:'Item 1',
-    key:'0'
-  },
-  {
-    title:'Item 2',
-    key:'1'
-  },
-]
-const [selectInfo,setSelectInfo] = useState<SelectProps>()
-<Select
-  onSelect={(info:SelectProps)=>{
-    console.log('Select info==',info)
-    setSelectInfo(info)
-  }}
-  titles={titles}/>
-
-```
-
-# 手机端菜单按钮弹出菜单栏
-https://codesandbox.io/p/sandbox/framer-motion-side-menu-mx2rw?file=%2Ftsconfig.json
-```
-<PhoneMenu/>
-```
-
-# graph 请求
-```
-import { GRAPH_XXX } from '@/API/graph'
-import { useQuery as useApolloQuery } from '@apollo/client';
-
-const { loading, error, data, refetch } = useApolloQuery(GRAPH_XXX,{
-  variables:{
-    orderBy:'blockNumber', // 参数1
-    orderDirection:'asc' // 参数2
-  },
-  pollInterval:30 * 1000 // 30s 轮询
-});
-
-```
-
-# 点击放大图片浏览
-```
-import { PhotoProvider, PhotoView } from 'react-photo-view';
-import 'react-photo-view/dist/react-photo-view.css';
-
-export default function MyComponent() {
-  return (
-    <PhotoProvider>
-      <div className="foo">
-        {images.map((item, index) => (
-          <PhotoView key={index} src={item}>
-            <img src={item} alt="" />
-          </PhotoView>
-        ))}
-      </div>
-    </PhotoProvider>
-  );
-}
-```
-
-# 可在任何 HTML 元素上提供滑动行为。支持鼠标和触摸事件。
-```
-import {useSlider} from 'react-use';
-const ref = useRef(null);
-const sliderInfo = useSlider(ref);
-
-<div ref={ref} style={{ position: 'relative',width:'100%',height:50,background:'yellow' }}>
-  <p style={{ textAlign: 'center', color: sliderInfo.isSliding ? 'red' : 'green' }}>
-    {Math.round(sliderInfo.value * 100)}%
-  </p>
-</div>
-```
-
-# 获取组件高度
-```
-//@ts-ignore
-import {ReactHeight} from 'react-height';
-
-<ReactHeight onHeightReady={(height:number) => console.log(height)}>
-  <div ref={ref} style={{ position: 'relative',width:'100%',height:50,background:'yellow' }}>
-
-  </div>
-</ReactHeight>
-
-```
-
-# emailjs  用于团队邮箱给用户邮箱发邮件
-```
-使用功能
-1.用户在官网上填写邮箱及其他信息，点击提交按钮，会把用户填写的信息上传服务器（接口上传）
-2.然后官网邮箱会给填写的邮箱地址发送回执邮件
-
-步骤：
-1.使用团队邮箱注册emailjs
-2.创建 Email Services
-3.创建 Email Templates，绑定团队邮箱，编辑团队给用户邮箱发送的邮箱格式，{{xxx}} ,xxx要和代码中的一一对应
-
-
-import emailjs from '@emailjs/browser';
-
-<form ref={form} onSubmit={sendEmail}>
-  <label>Name</label>
-  <input type="text" name="user_name" /> // user_name 和 Email Templates 对应
-  <label>Email</label>
-  <input type="email" name="user_email" /> // user_email 和 Email Templates 对应
-  <label>Message</label>
-  <textarea name="message" /> // message 和 Email Templates 对应
-  <input type="submit" value="Send" />
-</form>
-
-const sendEmail = (e:any) => {
-  e.preventDefault();
-  emailjs.sendForm('service_801n5um', 'template_j9pfsyg', form.current, '0ZyprY1OYCKKMxhEx')
-    .then((result) => {
-        console.log(result.text);
-    }, (error) => {
-        console.log(error.text);
-    });
-};
-
-```
-
-# numeral 处理数字库
-http://numeraljs.com/
-```
-// 每三位一个分割，保留4位小数
-const a = numeral(10000).format('0,0.0000') // 10,000.0000
-console.log('a=',a)
-
-// 每三位一个分割
-const b = numeral(10000).format('0,0') // 10,000
-console.log('b=',b)
-
-// 百分比转化
-const c = numeral(0.87).format('0%') // 87%
-console.log('c=',c)
-
-// 百分比转化 四舍五入
-const d = numeral(0.87456).format('0.00%') // 87.46%
-console.log('d=',d)
-
-```
-
-# 监听合约事件
-```
-
-import { publicClient } from '@/provider/Web3ModalProvider';
-import { parseAbiItem } from 'viem'
-
-const isOn = useRef(false)
-
-useEffect(()=>{
-  if (isOn.current)return
-  console.log('--------------')
-  const unwatch = publicClient.watchEvent({
-    address: '0x2F295157735f9D7C53b2bE8Ff58F47AC63666861',
-    event: parseAbiItem('event Transfer(address indexed from, address indexed to, uint256 value)'), 
-    onLogs: logs => console.log('Transfer',logs) // logs是数组 取第一个元素
-  })
-  const unwatch1 = publicClient.watchEvent({
-    address: '0x2F295157735f9D7C53b2bE8Ff58F47AC63666861',
-    event: parseAbiItem('event MintDOVArt(address account, uint256 _tokenID)'), 
-    onLogs: logs => console.log('MintDOVArt==',logs)
-  })
-
-  isOn.current = true
-
-  return ()=>{
-    unwatch()
-    unwatch1()
-  }
-},[])
-
-
-logs = [
-  {
-    address: "0x2f295157735f9d7c53b2be8ff58f47ac63666861",
-    args: {
-      account: "0xa3b58e476c72f18C7dC6619a8c6C03076085abf1",
-      _tokenID: 8n
-    }
-    blockHash: "0xb526fb8ccde4db45d2ef1b46edec2d4dde4ed9b042b9ca5f54ce6d61debe12d3"
-    blockNumber: 35214122n
-    data: 
-    "0x000000000000000000000000a3b58e476c72f18c7dc6619a8c6c03076085abf10000000000000000000000000000000000000000000000000000000000000008"
-    eventName: "MintDOVArt"
-    logIndex: 222
-    removed: false
-    topics: ['0x31e6b373451b732d81abf79d72d2db64507a5fcc2c3cf77098d8c949c044cb93']
-    transactionHash: "0xbe80012f60485eed7a7ac579c1fab859fa5c950ad44c34073e294f3fdbdf30e7"
-    transactionIndex: 97
-  }
-]
-
-```
-
-# 监听合约事件
-```
-import { useWatchContractEvent } from 'wagmi'
-import { abi } from './abi'
-
-function App() {
-  useWatchContractEvent({
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    abi,
-    eventName: 'Transfer',
-    onLogs(logs) {
-      console.log('New logs!', logs)
-    },
-  })
-}
-```
-
-# 监听合约事件
-```
-import { publicClient } from './client'
-import { wagmiAbi } from './abi'
-
-const unwatch = publicClient.watchContractEvent({
-  address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-  abi: wagmiAbi,
-  eventName: 'Transfer',
-  onLogs: logs => console.log(logs)
-})
-
-```
-
-# 获取某个合约地址的原生币的余额
-```
-const burnable = await provider.getBalance(ZZF_CONTRACT_ADDRESSSES[chain.id])
-
-```
-
-# 钱包签名
-```
-import { useSignMessage } from 'wagmi';
-const { signMessage } = useSignMessage()
-function signMsg(){
-  signMessage({message:'hello world'})
-}
-```
-
-# 切换链
-```
-import { useSwitchChain } from 'wagmi'
-const { chains, switchChain } = useSwitchChain()
-switchChain({ chainId: chain.id })
-
-```
-
-# 更换淘宝源
-`npm config set registry https://registry.npmmirror.com/`
-
-# 循环滚动
-`react-fast-marquee`
-
-# 骨架屏
-```
-import Skeletons, { SkeletonsText, SkeletonsImage } from '@/Components/Skeletons';
-<Skeletons className='Skeletons'/>
-<Skeletons className='SkeletonsAvatar'/>
-<SkeletonsText className='SkeletonsText' count={4} textClassName={'SkeletonsTextSub'}/>
-<SkeletonsImage className='SkeletonsImage'/>
-
-.Skeletons {
-  width: 100%;
-  height:2rem;
-}
-.SkeletonsAvatar {
-  width: 5rem;
-  height:5rem;
-  border-radius: 2.5rem;
-  overflow: hidden;
-}
-.SkeletonsText {
-  width:100rem
-}
-.SkeletonsTextSub {
-  height: 3rem;
-  margin: 0.5rem 0;
-}
-.SkeletonsImage {
-  width: 300px;
-  height: 200px;
-}
-
-```
-
-# 高度从 0 到 auto 动画显示
-```
-const [height,setHeight] = useState(0)
-const [show,setShow] = useState(false)
-
-function onShow(){
-   setShow(!show)
-}
-const ani = useSpring(
-  {
-    from: { height: show ? 0 : height, opacity:show?0 : 1},
-    to: { height: show ? height :0, opacity:show?1 : 0},
-    config:{
-      duration:250
-    }
-  }
-)
-<animated.div className={`column aboutDesView`} style={ani}>
-  <ReactHeight onHeightReady={(height:number) => setHeight(height)}>
-    <div className='aboutDes'>{item.des}</div>
-  </ReactHeight>
-</animated.div>
-
-```
-
-# rc-texty 文字动画
-https://motion.ant.design/components/texty-cn
-```
-import 'rc-texty/assets/index.css'
-import TextyAnim from 'rc-texty'
-
-<TextyAnim>text</TextyAnim>
-
-```
-
-# framer-motion 动画库
+# react-toastify
+  - 详细配置 `https://fkhadra.github.io/react-toastify/introduction`
+
+# icon大全
+  - 详细介绍 `https://react-icons.github.io/react-icons/`
+
+# @mui/icons-material 图标
+  `https://mui.com/material-ui/material-icons/`
+
+# 动画 motion
+  - 详细介绍 `https://motion.dev/docs/react-quick-start`
+  - select 选择框 `https://codesandbox.io/p/sandbox/framer-motion-variants-rj7ks0?file=%2Fsrc%2FApp.tsx%3A16%2C1`
+  - 点击按钮出现侧边栏 `https://codesandbox.io/p/sandbox/framer-motion-side-menu-mx2rw?file=%2Ftsconfig.json`
 ```
 import { motion, AnimatePresence } from "framer-motion"
 const [isOpen, setIsOpen] = useState(false)
@@ -827,71 +193,142 @@ const variants = {
   margin: 50px 0;
 }
 ```
-### useInView 判断组件刚进入页面
+
+# nzh 阿拉伯数字转中文
+  `https://github.com/cnwhy/nzh`
+
+# 浏览图片 react-photo-view
+  - 详细介绍 `https://github.com/MinJieLiu/react-photo-view`
+
+# numeral 处理数字库
+  - 详细介绍 `http://numeraljs.com/`
+
+# 循环滚动
+  - 详细介绍 `react-fast-marquee`
+
+# react-loader-spinner 加载动画
+  - 详细介绍 `https://mhnpd.github.io/react-loader-spinner/docs/intro`
+
+# react-countup 数字从  0 - 100
 ```
-import { animate, useAnimate, useAnimation, useInView } from 'framer-motion'
-
-const inViewRef = useRef(null)
-const isInView = useInView(inViewRef,{once:true})
-
-useEffect(()=>{
-  console.log('isInView===',isInView)
-  if (isInView){
-    //todo
-  }
-},[isInView])
-<div ref={inViewRef} style={{
-  width:200,
-  height:200,
-  background:'blue',
-  marginTop:300
-}}></div>
-```
-
-### 点击按钮执行动画
-```
-import { animate } from 'framer-motion'
-<div className="arrow" style={{background:'red',width:15, height:15 }}/>
-
-animate(".arrow", { rotate: 180, scale:3, x:100, width:30, height:30 }, { duration: 1 });
-
-```
-
-
-# AOS div将要显示到页面上时的动画
-https://michalsnik.github.io/aos/
-https://github.com/michalsnik/aos?tab=readme-ov-file
-```
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-AOS.init();
-
-<div data-aos="fade-in"></div>
-
+<CountUp className='numberValue' end={100} duration={3} />
 ```
 
 # 图表 echarts
+  - 详细介绍 `https://echarts.apache.org/examples/zh/index.html`
+
+# 根据字符串生成头像
 ```
-https://echarts.apache.org/examples/zh/index.html
+import multiavatar from '@multiavatar/multiavatar/esm'
+let svgCode = multiavatar('Binx Bond')
+<div className={'svg'} dangerouslySetInnerHTML={{ __html: SvgCode }}></div>
 ```
 
-# 图片浏览 swiper
-https://swiperjs.com/demos
+# 倒计时
+```
+import Countdown, {zeroPad} from "react-countdown";
+{time < 时间戳 && <Countdown date={time} renderer={renderer} />}
+const renderer = ({ days,hours, minutes, seconds, completed }:any) => {
+  if (completed) {
+  } else {
+    return <span>{zeroPad(days,2)} {zeroPad(hours,2)}:{zeroPad(minutes,2)}:{zeroPad(seconds,2)}</span>
+  }
+};
+```
 
-# 图片浏览切换 react-awesome-slider
-https://github.com/rcaferati/react-awesome-slider
-https://fullpage.caferati.me/page-three  效果展示
+# 主题切换
+```
+`theme.css`
+
+:root {
+  --bg-color:blue
+}
+
+[data-theme = 'dark'] {
+  --bg-color:purple
+}
+
+function onChangeTheme(){
+  const currentTheme = document.documentElement.getAttribute('data-theme')
+  if (currentTheme == 'dark'){
+    document.documentElement.removeAttribute('data-theme')
+  }else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+<div className={styles.themeView}>背景色</div>
+
+.themeView {
+  background: var(--bg-color);
+}
+
+```
+
+# 打开链接钱包弹框
+`window.eventEmitter.emit(EVENT_NAME_OPEN_CONNECT_WALLET)`
+
+# 每个页面判断是否登录
+```
+function HomePage() {
+  return <div></div>
+}
+export default withAuth(HomePage)
+```
+
+# 链接钱包库 RainbowKit
+  `https://www.rainbowkit.com/zh-CN/docs/installation`
+
+# 状态管理库 zustand
+  `https://awesomedevin.github.io/zustand-vue/docs/introduce/start/zustand`
+  - 持久化 `https://juejin.cn/post/7452175687089946659`
+
+# js动画库 GSAP
+  `https://gsap.com/`
+  `https://gsap.com/resources/React`
+  ```
+    const contrainer = useRef<any>()
+    // 布局完成后执行动画,执行一次
+    useGSAP(()=>{
+      gsap.to('.box',{rotation:'+=360',duration:3,x:200})
+    },{scope:contrainer})
+    // 方式一：属性改变时执行动画
+    useGSAP(()=>{
+      gsap.to('.box',{rotation:'-=360',duration:3,x:200})
+    },[language])
+    // 方式二：属性改变时执行动画
+    useGSAP(()=>{
+      gsap.to('.box',{rotation:'-=360',duration:3,x:200})
+    },{dependencies:[language],scope:contrainer,revertOnUpdate:false})
+    // 点击按钮执行动画
+    const { contextSafe } = useGSAP({scope:contrainer})
+    function onBoxClick(){
+      gsap.to('.box',{duration:3,x:0})
+    }
+
+    return (
+      <div ref={contrainer}>
+    )
+  ```
+
+# tailwindcss
+  `https://umijs.org/blog/develop-blog-using-umi#%E5%AE%89%E8%A3%85-tailwindcss`
+  `https://v3.tailwindcss.com/docs/configuration`
+  - `<div className={classNames(styles.together,'text-3xl font-bold','text-yellow-400')}>tailwindcss和less一起使用</div>` 
+  - 在 less  css  sass 使用 @apply 会提示警告 在vscode中，搜索 css 找到语言配置 CSS › Lint: Unknown At Rules  设置为 ignore
+    `https://v3.tailwindcss.com/docs/using-with-preprocessors`
+    
+
+  - 快速查看:`https://v3.tailwindcss.com/docs/hover-focus-and-other-states#quick-reference`
+  - 屏幕@media  `https://v3.tailwindcss.com/docs/responsive-design`
+                `https://v3.tailwindcss.com/docs/functions-and-directives#screen`
 
 
-# 根据图片获取 blurDataURL
-https://blurred.dev/
 
+# shadcn/ui
+  `https://www.shadcn.net/docs/installation/manual`
 
+# MUI组件库
+  `https://mui.com/material-ui/getting-started/installation/`
+  - sx `https://mui.com/system/getting-started/the-sx-prop/`
 
-# lodash 处理 数组、字符串、对象、判空、类型转换、math计算
-
-# react-loader-spinner 加载动画
-https://mhnpd.github.io/react-loader-spinner/docs/intro
-
-# react-reveal 动画入场效果
-https://www.react-reveal.com/

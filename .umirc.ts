@@ -1,28 +1,46 @@
 import { defineConfig } from "umi";
-
+// https://umijs.org/docs/api/config
 export default defineConfig({
+  title: "MyApp",
   plugins: [
-    '@umijs/plugins/dist/locale'
+    "@umijs/plugins/dist/locale", 
+    "@umijs/plugins/dist/tailwindcss"
   ],
   routes: [
     { path: "/", component: "index" },
-    // { path: "/home", component: "home" }
+    { path: "/login", component: "login" },
+    { path: "/mine", component: "mine" },
+    { path: "/*", component: "404" },
   ],
-  npmClient: 'yarn',
-  title:"xxx",
-  jsMinifierOptions: {
-    target: ['chrome80', 'es2020']
-  },
-  // styledComponents: {},
-  // antd:{},
-  clientLoader: {},
+
+  npmClient: "yarn",
   locale: {
-    default: 'zh-CN',
-    baseSeparator: '-',
+    default: "zh-CN",
+    baseSeparator: "-",
     useLocalStorage: true,
     baseNavigator: false,
-    title:false
+    title: false,
+    antd: false,
   },
+  hash: true,
+  history: {
+    type: "hash",
+  },
+  clientLoader: {},
+  headScripts: [
+    {
+      src: "",
+    },
+  ],
+
+  tailwindcss: {},
+});
+
+/*
+import { defineConfig } from "umi";
+
+export default defineConfig({
+
   // headScripts: [
   //   { src: `https://cstaticdun.126.net/load.min.js?t=${new Date().getTime()}`},
   //   { src: `https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js?t=${new Date().getTime()}`},
@@ -40,10 +58,6 @@ export default defineConfig({
       .use('file-loader')
       .loader('file-loader');
   },
-  hash:true,
-  history:{
-    type:'hash'
-  },
   metas:[
     {
       "http-equiv":'Cache-Control',
@@ -57,5 +71,13 @@ export default defineConfig({
       "http-equiv":"Expires",
       content:"0"
     }
-  ]
+  ],
+  // proxy:{
+  //   '/api': {
+  //     'target': 'http://localhost:8000',
+  //     'changeOrigin': true,
+  //     'pathRewrite': { '^/api' : '' },
+  //   },
+  // }
 });
+*/

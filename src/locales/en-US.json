@@ -1,16 +1,12 @@
 {
-  "header": {
-    "title":"The Owl Station Hongkong Collection is Live!",
-    "BuyNow":"Buy Now",
-    "GetForFree":"GET FOR FREE",
-    "OwlNetwork":"OwlNetwork",
-    "menu":{
-      "About":"About",
-      "Device":"Device",
-      "SaaS":"SaaS",
-      "Updates":"Updates",
-      "Doc":"Doc"
+  "welcome": "{name} Welcome to Umi's world!",
+  "home":{
+    "title":"6",
+    "detail":{
+      "title":"66"
     }
+  },
+  "assets":{
+    "title":""
   }
-
 }

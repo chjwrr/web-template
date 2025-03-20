@@ -1,46 +1,68 @@
-import { configureStore } from '@reduxjs/toolkit'
-import settingReducer from './setting'
-import userInfoReducer from './userInfo'
-
-import { combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-
-
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux'
+import { persistStore, persistReducer } from 'redux-persist'
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+import SettingReducer from './settingSlice'
+import UserReducer from './userSlice'
+
 
 const createNoopStorage = () => {
   return {
-    getItem(_key:any) {
+      getItem(_key:any) {
       return Promise.resolve(null);
-    },
-    setItem(_key:any, value:any) {
+      },
+      setItem(_key:any, value:any) {
       return Promise.resolve(value);
-    },
-    removeItem(_key:any) {
+      },
+      removeItem(_key:any) {
       return Promise.resolve();
-    },
+      },
   };
 };
 
-const storage =
-  typeof window === "undefined" ? createNoopStorage() : createWebStorage('local');
+const storage = typeof window === "undefined" ? createNoopStorage() : createWebStorage('local');
+
 
 const persistConfig = {
   key: 'root',
   storage,
   blacklist: []
 };
-
-const reducer = combineReducers({
-  setting:settingReducer,
-  userInfo:userInfoReducer
+const rootReducer = combineReducers({
+  setting: SettingReducer,
+  user:UserReducer
 });
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const persistedReducer = persistReducer(persistConfig, reducer);
-export const reduxStore = configureStore({
-  reducer: persistedReducer,
-  // middleware: [thunk],
-});
 
-export const persistor = persistStore(reduxStore)
-export type RootState = ReturnType<typeof reduxStore.getState>
+export const store = configureStore({
+  reducer:persistedReducer,
+  middleware: (getDefaultMiddleware) => {
+      const middleware = getDefaultMiddleware({
+          immutableCheck: {
+              ignoredPaths: [],
+          },
+          serializableCheck: {
+              ignoredPaths: [],
+              ignoredActions: [
+                  'persist/PERSIST', 
+                  'persist/PURGE', 
+                  'persist/REHYDRATE',
+                  'persist/FLUSH',
+                  'persist/PAUSE',
+                  'persist/REGISTER',
+              ],
+          },
+      });
+      
+      return middleware;
+      },
+})
+export const persistor = persistStore(store)
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useAppSelector = useSelector.withTypes<RootState>()

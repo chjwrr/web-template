@@ -1,4 +1,20 @@
 // key：语言简写-国家简写
+
+export enum LocalsLanaugaeKey {
+  US = 'en-US',
+  ZHCN = 'zh-CN',
+  ZHTW = 'zh-TW'
+}
+
+export const LocalsLanaugaeTitle:Record<LocalsLanaugaeKey,string> = {
+  [LocalsLanaugaeKey.US]:'English',
+  [LocalsLanaugaeKey.ZHCN]:'简体中文',
+  [LocalsLanaugaeKey.ZHTW]:'繁體中文'
+}
+
+
+
+
 const LocalsLanaugae:any = {
   'en-US':{
     title:'English'                // 英语
@@ -56,4 +72,3 @@ const LocalsLanaugae:any = {
   },
 
 }
-export default LocalsLanaugae

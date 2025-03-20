@@ -1,15 +1,16 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryCache,
+} from "@tanstack/react-query";
 
-import React from "react";
-import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-export const queryCache = new QueryCache({
+const queryCache = new QueryCache({
   onError: (error, query) => {
     if (error instanceof Error) console.error({ key: query.queryKey, error: error.message });
   },
 });
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   queryCache,
   defaultOptions: {
     queries: {
@@ -23,8 +24,8 @@ export const queryClient = new QueryClient({
   },
 });
 
-export const ReactQueryProvider = ({ children }:any) => (
-  <QueryClientProvider client={queryClient}>
+export default function ReactQueryProvider({children}:any){
+  return <QueryClientProvider client={queryClient}>
     {children}
   </QueryClientProvider>
-);
+}

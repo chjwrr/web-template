@@ -1,4 +1,3 @@
-// translate.config.js
 import { Lang } from 'language-translate/types';
 import { defineConfig } from 'language-translate/utils';
 
